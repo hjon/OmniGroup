@@ -13,6 +13,8 @@
 
 @optional
 
+- (void)textView:(OUIEditableFrame *)textView didShowCaretAtRect:(CGRect)caretRect;
+
 - (BOOL)textView:(OUIEditableFrame *)textView shouldInsertText:(NSString *)text;
 - (BOOL)textView:(OUIEditableFrame *)textView shouldDeleteBackwardsFromIndex:(NSUInteger)startIndex;
 

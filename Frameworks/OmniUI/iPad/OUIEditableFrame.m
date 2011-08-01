@@ -1211,6 +1211,7 @@ static BOOL _rangeIsInsertionPoint(OUIEditableFrame *self, UITextRange *r)
     flags.delegateRespondsToShouldInsertText = [newDelegate respondsToSelector:@selector(textView:shouldInsertText:)];
     flags.delegateRespondsToShouldDeleteBackwardsFromIndex = [newDelegate respondsToSelector:@selector(textView:shouldDeleteBackwardsFromIndex:)];
     flags.delegateRespondsToSelectionChanged = [newDelegate respondsToSelector:@selector(textViewSelectionChanged:)];
+    flags.delegateRespondsToDidShowCaretAtRect = [newDelegate respondsToSelector:@selector(textView:didShowCaretAtRect:)];
     
     editMenu.delegate = delegate;
 }
@@ -4415,6 +4416,25 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
             }
         }
     }
+    
+    if (selection && [selection isEmpty]) {
+        // If we're being drawn zoomed, we might not need as much enlargement of the caret in order for it to be visible
+        CGFloat nominalScale = self.scale;
+        double actualScale = sqrt(fabs(OQAffineTransformGetDilation(currentCTM)));
+        
+        OUEFTextPosition *position = (OUEFTextPosition *)selection.start;
+        CGRect caretRect = [self _caretRectForPosition:position affinity:position.affinity bloomScale:MAX(nominalScale, actualScale)];
+        NSLog(@"%s CaretRect: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
+
+        
+        if (!CGRectIsEmpty(caretRect)) {
+            caretRect = [self convertRectToRenderingSpace:caretRect]; // note this method does the opposite of what its name implies
+            NSLog(@"%s CaretRect after conversion: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
+            if (flags.delegateRespondsToDidShowCaretAtRect)
+                [delegate textView:self didShowCaretAtRect:caretRect];
+        }
+    }
+
 }
 
 - (void)_setNeedsDisplayForRange:(OUEFTextRange *)range;

@@ -81,6 +81,7 @@
         unsigned delegateRespondsToShouldInsertText:1;
         unsigned delegateRespondsToShouldDeleteBackwardsFromIndex:1;
         unsigned delegateRespondsToSelectionChanged:1;
+        unsigned delegateRespondsToDidShowCaretAtRect:1;
         
         // Features which can be enabled or disabled
         unsigned showSelectionThumbs:1;  // Effectively disables range selection

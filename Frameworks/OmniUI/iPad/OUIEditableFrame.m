@@ -4653,6 +4653,7 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
 - (UIView *)_topmostView;
 {
     UIView *aView = self;
+    return [aView superview];
     
     for(;;) {
         UIView *parentView = [aView superview];

@@ -4424,12 +4424,12 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
         
         OUEFTextPosition *position = (OUEFTextPosition *)selection.start;
         CGRect caretRect = [self _caretRectForPosition:position affinity:position.affinity bloomScale:MAX(nominalScale, actualScale)];
-        NSLog(@"%s CaretRect: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
+        // NSLog(@"%s CaretRect: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
 
         
         if (!CGRectIsEmpty(caretRect)) {
             caretRect = [self convertRectToRenderingSpace:caretRect]; // note this method does the opposite of what its name implies
-            NSLog(@"%s CaretRect after conversion: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
+            // NSLog(@"%s CaretRect after conversion: %@", __PRETTY_FUNCTION__, NSStringFromCGRect(caretRect));
             if (flags.delegateRespondsToDidShowCaretAtRect)
                 [delegate textView:self didShowCaretAtRect:caretRect];
         }

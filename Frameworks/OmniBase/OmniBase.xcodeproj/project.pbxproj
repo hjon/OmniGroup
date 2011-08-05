@@ -590,7 +590,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34354D211190BFC700FE1BEB /* Touch-Library-Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniBase;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Debug;
 		};
@@ -598,6 +608,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34354D221190BFC700FE1BEB /* Touch-Library-Release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniBase;
 			};
 			name = Release;
@@ -606,7 +625,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34354D201190BFC700FE1BEB /* Touch-Library-Coverage.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniBase;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Coverage;
 		};

@@ -619,7 +619,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34D06C65125D203B00CA3963 /* Touch-Library-Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniFileStore;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Debug;
 		};
@@ -627,6 +637,15 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34D06C66125D203B00CA3963 /* Touch-Library-Release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniFileStore;
 			};
 			name = Release;
@@ -635,7 +654,17 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34D06C64125D203B00CA3963 /* Touch-Library-Coverage.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniFileStore;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Coverage;
 		};

@@ -133,7 +133,7 @@ do
             echo "Building ${projectName%.xcodeproj} (${project})"
             (
                 set -x
-                xcodebuild DSTROOT="/" SYMROOT="$productDirectory" OBJROOT="$buildDirectory" OMNI_INSTALLED_PRODUCTS="$OMNI_INSTALLED_PRODUCTS" OMNI_FRAMEWORK_TARGET_PATH="$OMNI_FRAMEWORK_TARGET_PATH" $pbxopts $BUILD_ACTION
+                xcodebuild DSTROOT="/" SYMROOT="$productDirectory" OBJROOT="$buildDirectory" OMNI_INSTALLED_PRODUCTS="$OMNI_INSTALLED_PRODUCTS" OMNI_FRAMEWORK_TARGET_PATH="$OMNI_FRAMEWORK_TARGET_PATH" $pbxopts $BUILD_ACTION ARCHS="x86_64 i386 armv6 armv7"
             )
         fi
     ) || (

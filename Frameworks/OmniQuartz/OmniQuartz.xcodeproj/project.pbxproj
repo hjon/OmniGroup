@@ -568,8 +568,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 345613C71193195A00E7D187 /* Touch-Library-Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
 				GCC_PREFIX_HEADER = "$(TARGET_NAME)_Prefix.h";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniQuartz;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Debug;
 		};
@@ -577,7 +587,16 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 345613C81193195A00E7D187 /* Touch-Library-Release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
 				GCC_PREFIX_HEADER = "$(TARGET_NAME)_Prefix.h";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniQuartz;
 			};
 			name = Release;
@@ -586,8 +605,18 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 345613C61193195A00E7D187 /* Touch-Library-Coverage.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
 				GCC_PREFIX_HEADER = "$(TARGET_NAME)_Prefix.h";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniQuartz;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Coverage;
 		};

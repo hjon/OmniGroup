@@ -33,6 +33,7 @@
 		23DF9B5E136A1D380030C32B /* OUIWebDAVSyncListController.h in Headers */ = {isa = PBXBuildFile; fileRef = 23DF9B5C136A1D380030C32B /* OUIWebDAVSyncListController.h */; };
 		23DF9B5F136A1D380030C32B /* OUIWebDAVSyncListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 23DF9B5D136A1D380030C32B /* OUIWebDAVSyncListController.m */; };
 		23DF9B60136A24310030C32B /* OUISyncListController.xib in Copy Resources */ = {isa = PBXBuildFile; fileRef = 23495E551368CA740039FB8C /* OUISyncListController.xib */; };
+		25CC6BAA13EC6F21003F19A9 /* UIView-OUIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C4B191193273600BE8C49 /* UIView-OUIExtensions.m */; };
 		3402B7201270FD520031C27D /* OUITableViewItemSelection-Selected.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 3402B70B1270FBBA0031C27D /* OUITableViewItemSelection-Selected.png */; };
 		3402B729127100CC0031C27D /* OUITableViewItemSelection-Highlighted.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 3402B727127100C50031C27D /* OUITableViewItemSelection-Highlighted.png */; };
 		3402B72A127100CC0031C27D /* OUITableViewItemSelection-Normal.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 3402B728127100C50031C27D /* OUITableViewItemSelection-Normal.png */; };
@@ -215,7 +216,6 @@
 		346C4BA21193273600BE8C49 /* UIGestureRecognizer-OUIExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 346C4B161193273600BE8C49 /* UIGestureRecognizer-OUIExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		346C4BA31193273600BE8C49 /* UIGestureRecognizer-OUIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C4B171193273600BE8C49 /* UIGestureRecognizer-OUIExtensions.m */; };
 		346C4BA41193273600BE8C49 /* UIView-OUIExtensions.h in Headers */ = {isa = PBXBuildFile; fileRef = 346C4B181193273600BE8C49 /* UIView-OUIExtensions.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		346C4BA51193273600BE8C49 /* UIView-OUIExtensions.m in Sources */ = {isa = PBXBuildFile; fileRef = 346C4B191193273600BE8C49 /* UIView-OUIExtensions.m */; };
 		346C4BEC1193295900BE8C49 /* OUIDocumentDelete.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 346C4A531193273600BE8C49 /* OUIDocumentDelete.png */; };
 		346C4BED1193295900BE8C49 /* OUIDocumentDuplicate.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 346C4A541193273600BE8C49 /* OUIDocumentDuplicate.png */; };
 		346C4BEE1193295900BE8C49 /* OUIDocumentExport.png in Copy Resources */ = {isa = PBXBuildFile; fileRef = 346C4A551193273600BE8C49 /* OUIDocumentExport.png */; };
@@ -1904,7 +1904,6 @@
 				346C4B9F1193273600BE8C49 /* OUIUndoIndicator.m in Sources */,
 				346C4BA11193273600BE8C49 /* OUIWebViewController.m in Sources */,
 				346C4BA31193273600BE8C49 /* UIGestureRecognizer-OUIExtensions.m in Sources */,
-				346C4BA51193273600BE8C49 /* UIView-OUIExtensions.m in Sources */,
 				34D9ADBE1194A1A4001E3A18 /* OUIRTFReader.m in Sources */,
 				34D9ADC01194A1A4001E3A18 /* OUIRTFWriter.m in Sources */,
 				94909AF111AD9F9400BA9C40 /* OUIUndoButton.m in Sources */,
@@ -1971,6 +1970,7 @@
 				4D3C314613BD3C980065B582 /* OUIScrollNotifier.m in Sources */,
 				4D5016C213C3D84500AD3367 /* OUIMinimalScrollNotifierImplementation.m in Sources */,
 				4D501BA913C67ABA00AD3367 /* OUIEditMenuController.m in Sources */,
+				25CC6BAA13EC6F21003F19A9 /* UIView-OUIExtensions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1992,11 +1992,21 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 346C4A11119326AD00BE8C49 /* Touch-Library-Debug.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniUI;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Debug;
 		};
@@ -2004,10 +2014,19 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 346C4A12119326AD00BE8C49 /* Touch-Library-Release.xcconfig */;
 			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
 				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniUI;
 			};
 			name = Release;

@@ -40,7 +40,6 @@ OmniGroup/Frameworks/OmniSoftwareUpdate
 OmniGroup/Frameworks/OWF
 OmniGroup/Frameworks/OIF
 OmniGroup/Frameworks/OmniSQLite
-OmniGroup/Frameworks/OmniFoundation(OFUnitTests)
 OmniGroup/Frameworks/OmniNetworking(ONUnitTests)
 OmniGroup/Frameworks/OmniAppKit(OAUnitTests)
 .

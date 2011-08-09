@@ -69,7 +69,10 @@ static BOOL _viewsCompatible(UIView *self, UIView *otherView)
     UIWindow *window2 = _window(otherView);
     
     // Might actually be allowed if they are on any screen, but it isn't clear how UIKit would treat those transforms since there is no screen arrangement UI (presumably left-to-right with the top-edge aligned, but who knows).
-    OBASSERT(window1.screen == window2.screen);
+    if ([window1 respondsToSelector:@selector(screen)] && [window2 respondsToSelector:@selector(screen)])
+    {
+        OBASSERT(window1.screen == window2.screen);
+    }
     
     return YES;
 }

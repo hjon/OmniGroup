@@ -112,3 +112,6 @@ do {						\
 #endif
 #endif
 
+#ifdef OB_BUILTIN_ATOMICS_AVAILABLE
+#undef OB_BUILTIN_ATOMICS_AVAILABLE
+#endif

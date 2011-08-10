@@ -3067,6 +3067,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniAppKit;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
 			};
 			name = Release;
 		};

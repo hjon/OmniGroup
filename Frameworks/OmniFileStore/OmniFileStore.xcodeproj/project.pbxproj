@@ -571,6 +571,50 @@
 			};
 			name = Release;
 		};
+		25F0519413F3318000D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3421AE940F71F89C0096AADB /* Omni-Global-Release.xcconfig */;
+			buildSettings = {
+			};
+			name = AdHoc;
+		};
+		25F0519513F3318000D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3421AE8D0F71F89C0096AADB /* Omni-Framework-Release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Info.plist;
+				OMNI_BUNDLE_IDENTIFIER = com.omnigroup.framework.OmniFileStore;
+				PRODUCT_NAME = OmniFileStore;
+			};
+			name = AdHoc;
+		};
+		25F0519613F3318000D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34D06C66125D203B00CA3963 /* Touch-Library-Release.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = OmniFileStore;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
+			};
+			name = AdHoc;
+		};
+		25F0519713F3318000D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3421AE9C0F71F89C0096AADB /* Omni-Tool-Release.xcconfig */;
+			buildSettings = {
+				GCC_PREFIX_HEADER = OmniFileStore_Prefix.h;
+				PRODUCT_NAME = ofs;
+			};
+			name = AdHoc;
+		};
 		3421AEBC0F71F8F50096AADB /* Coverage */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 3421AE920F71F89C0096AADB /* Omni-Global-Coverage.xcconfig */;
@@ -677,6 +721,7 @@
 			buildConfigurations = (
 				1DEB91AE08733DA50010E9CD /* Debug */,
 				1DEB91AF08733DA50010E9CD /* Release */,
+				25F0519513F3318000D6DD46 /* AdHoc */,
 				3421AEBD0F71F8F50096AADB /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -687,6 +732,7 @@
 			buildConfigurations = (
 				1DEB91B208733DA50010E9CD /* Debug */,
 				1DEB91B308733DA50010E9CD /* Release */,
+				25F0519413F3318000D6DD46 /* AdHoc */,
 				3421AEBC0F71F8F50096AADB /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -697,6 +743,7 @@
 			buildConfigurations = (
 				34C017A610995279001C110D /* Debug */,
 				34C017A710995279001C110D /* Release */,
+				25F0519713F3318000D6DD46 /* AdHoc */,
 				34C017A810995279001C110D /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -707,6 +754,7 @@
 			buildConfigurations = (
 				34D06C55125D202500CA3963 /* Debug */,
 				34D06C56125D202500CA3963 /* Release */,
+				25F0519613F3318000D6DD46 /* AdHoc */,
 				34D06C57125D202500CA3963 /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;

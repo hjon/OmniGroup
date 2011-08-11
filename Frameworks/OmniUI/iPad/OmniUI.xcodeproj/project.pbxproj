@@ -2046,6 +2046,35 @@
 			};
 			name = Release;
 		};
+		25F0519813F3318800D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 346C4A00119326AD00BE8C49 /* Omni-Global-Release.xcconfig */;
+			buildSettings = {
+			};
+			name = AdHoc;
+		};
+		25F0519913F3318800D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 346C4A12119326AD00BE8C49 /* Touch-Library-Release.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+				);
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SDKROOT)/Developer/Library/Frameworks\"",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = OmniUI;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
+			};
+			name = AdHoc;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2054,6 +2083,7 @@
 			buildConfigurations = (
 				1DEB921F08733DC00010E9CD /* Debug */,
 				1DEB922008733DC00010E9CD /* Release */,
+				25F0519913F3318800D6DD46 /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -2063,6 +2093,7 @@
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
 				1DEB922408733DC00010E9CD /* Release */,
+				25F0519813F3318800D6DD46 /* AdHoc */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

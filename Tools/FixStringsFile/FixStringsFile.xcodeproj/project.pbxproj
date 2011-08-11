@@ -243,6 +243,21 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin XCBuildConfiguration section */
+		25F0517613F3295A00D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34C4D6B008C7AB280072D2D6 /* Omni-Global-Release.xcconfig */;
+			buildSettings = {
+			};
+			name = AdHoc;
+		};
+		25F0517713F3295A00D6DD46 /* AdHoc */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34C4D6B308C7AB280072D2D6 /* Omni-Tool-Release.xcconfig */;
+			buildSettings = {
+				PRODUCT_NAME = FixStringsFile;
+			};
+			name = AdHoc;
+		};
 		34DB3AAA08C7AADC00BC2748 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34C4D6B208C7AB280072D2D6 /* Omni-Tool-Debug.xcconfig */;
@@ -296,6 +311,7 @@
 			buildConfigurations = (
 				34DB3AAA08C7AADC00BC2748 /* Debug */,
 				34DB3AAB08C7AADC00BC2748 /* Release */,
+				25F0517713F3295A00D6DD46 /* AdHoc */,
 				34DB3AAC08C7AADC00BC2748 /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;
@@ -306,6 +322,7 @@
 			buildConfigurations = (
 				34DB3AAE08C7AADC00BC2748 /* Debug */,
 				34DB3AAF08C7AADC00BC2748 /* Release */,
+				25F0517613F3295A00D6DD46 /* AdHoc */,
 				34DB3AB008C7AADC00BC2748 /* Coverage */,
 			);
 			defaultConfigurationIsVisible = 0;

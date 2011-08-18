@@ -187,6 +187,7 @@
 
 - (NSArray *)inspectableTextSpans;    // returns set of OUEFTextSpans 
 - (void)inspectSelectedTextFromBarButtonItem:(UIBarButtonItem *)barButtonItem;
+- (void)inspectSelectedTextWithNavigationController:(UINavigationController *)navigationController;
 
 - (NSRange)characterRangeForTextRange:(UITextRange *)textRange;
 

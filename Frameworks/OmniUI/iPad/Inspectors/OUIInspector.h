@@ -60,6 +60,7 @@ extern NSString * const OUIInspectorDidEndChangingInspectedObjectsNotification;
 
 - (BOOL)inspectObjects:(NSArray *)objects fromBarButtonItem:(UIBarButtonItem *)item;
 - (BOOL)inspectObjects:(NSArray *)objects fromRect:(CGRect)rect inView:(UIView *)view permittedArrowDirections:(UIPopoverArrowDirection)arrowDirections;
+- (BOOL)inspectObjects:(NSArray *)objects fromNavigationController:(UINavigationController *)navigationController;
 - (void)updateInterfaceFromInspectedObjects:(OUIInspectorUpdateReason)reason; // If you wrap edits in the will/did change methods below, this will be called automatically on the 'did'.
 - (void)dismiss;
 - (void)dismissAnimated:(BOOL)animated;

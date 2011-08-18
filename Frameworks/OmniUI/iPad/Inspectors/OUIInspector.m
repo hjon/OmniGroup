@@ -163,12 +163,26 @@ NSString * const OUIInspectorDidEndChangingInspectedObjectsNotification = @"OUII
 // Subclass to return YES if you intend to embed the inspector into a your own navigation controller.
 - (BOOL)isEmbededInOtherNavigationController;
 {
-    return NO;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        return NO;
+    }
+    else
+    {
+        return YES;
+    }
 }
 
 - (UINavigationController *)embeddingNavigationController;
 {
-    return nil;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
+    {
+        return nil;
+    }
+    else
+    {
+        return [[self mainPane] navigationController];;
+    }
 }
 
 - (BOOL)isVisible;
@@ -202,6 +216,20 @@ NSString * const OUIInspectorDidEndChangingInspectedObjectsNotification = @"OUII
     if ([self isEmbededInOtherNavigationController] == NO) {
         if (![[OUIAppController controller] presentPopover:_popoverController fromRect:rect inView:view permittedArrowDirections:arrowDirections animated:YES])
             return NO;
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:OUIInspectorDidPresentNotification object:self];
+    return YES;
+}
+
+- (BOOL)inspectObjects:(NSArray *)objects fromNavigationController:(UINavigationController *)navigationController
+{
+    if (![self _prepareToInspectObjects:objects])
+        return NO;
+    
+    // In the embedding case, the 'from whatever' arguments are irrelevant. We assumed the embedding navigation controller is going to be made visibiel somehow.
+    if ([self isEmbededInOtherNavigationController] == YES) {
+        [navigationController pushViewController:(UIViewController *)[self mainPane] animated:YES];
     }
     
     [[NSNotificationCenter defaultCenter] postNotificationName:OUIInspectorDidPresentNotification object:self];

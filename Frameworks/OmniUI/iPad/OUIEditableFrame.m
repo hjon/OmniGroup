@@ -4749,6 +4749,12 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
     [_textInspector inspectObjects:runs fromBarButtonItem:barButtonItem];
 }
 
+- (void)inspectSelectedTextWithNavigationController:(UINavigationController *)navigationController
+{
+    NSArray *runs = [self _configureInspector];
+    [_textInspector inspectObjects:runs fromNavigationController:navigationController];
+}
+
 - (NSRange)characterRangeForTextRange:(UITextRange *)textRange;
 {
     OBPRECONDITION([textRange isKindOfClass:[OUEFTextRange class]]);

@@ -1493,7 +1493,7 @@ static BOOL _rangeIsInsertionPoint(OUIEditableFrame *self, UITextRange *r)
         if (value)
             [attributes setObject:value forKey:attr];
         else
-            [attributes removeObjectForKey:value];
+            [attributes removeObjectForKey:attr];
         self.typingAttributes = attributes;
         [attributes release];
         return;

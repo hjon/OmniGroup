@@ -4764,10 +4764,14 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
 - (NSArray *)inspector:(OUIInspector *)inspector makeAvailableSlicesForStackedSlicesPane:(OUIStackedSlicesInspectorPane *)pane;
 {
     NSMutableArray *slices = [NSMutableArray array];
-    [slices addObject:[[[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Text color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.")
-                                                                    attributeName:OAForegroundColorAttributeName] autorelease]];
-    [slices addObject:[[[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Background color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.")
-                                                                    attributeName:OABackgroundColorAttributeName] autorelease]];
+    OUITextColorAttributeInspectorSlice *foregroundSlice = [[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Text color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.") attributeName:OAForegroundColorAttributeName];
+    [foregroundSlice setAllowsNone:YES];
+    [slices addObject:foregroundSlice];
+    [foregroundSlice release];
+    OUITextColorAttributeInspectorSlice *backgroundSlice = [[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Background color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.") attributeName:OABackgroundColorAttributeName];
+    [backgroundSlice setAllowsNone:YES];
+    [slices addObject:backgroundSlice];
+    [backgroundSlice release];
     [slices addObject:[[[OUIFontAttributesInspectorSlice alloc] init] autorelease]];
     [slices addObject:[[[OUIFontInspectorSlice alloc] init] autorelease]];
     [slices addObject:[[[OUIParagraphStyleInspectorSlice alloc] init] autorelease]];

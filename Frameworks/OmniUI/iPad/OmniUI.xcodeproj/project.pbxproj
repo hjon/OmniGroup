@@ -1995,10 +1995,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2017,10 +2019,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2060,10 +2064,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

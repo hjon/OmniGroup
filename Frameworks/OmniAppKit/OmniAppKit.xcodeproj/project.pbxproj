@@ -3062,10 +3062,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniAppKit;
@@ -3128,10 +3130,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniAppKit;
@@ -3146,10 +3150,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniAppKit;
@@ -3164,10 +3170,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
 				PRODUCT_NAME = OmniAppKit;

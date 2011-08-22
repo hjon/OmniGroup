@@ -618,10 +618,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				GCC_PREFIX_HEADER = OmniUnzip_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
@@ -637,10 +639,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				GCC_PREFIX_HEADER = OmniUnzip_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
@@ -656,10 +660,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				GCC_PREFIX_HEADER = OmniUnzip_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
@@ -675,10 +681,12 @@
 				ARCHS = (
 					armv6,
 					armv7,
+					i386,
 				);
 				"ARCHS[sdk=iphoneos*]" = (
 					armv6,
 					armv7,
+					i386,
 				);
 				GCC_PREFIX_HEADER = OmniUnzip_Prefix.pch;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1;

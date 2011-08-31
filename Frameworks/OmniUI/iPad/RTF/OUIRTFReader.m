@@ -363,6 +363,7 @@ static NSMutableDictionary *KeywordActions;
     _pushedStates = [[NSMutableArray alloc] init];
     _colorTable = [[NSMutableArray alloc] init];
     _fontTable = [[NSMutableArray alloc] init];
+    isSupported = YES;
 
     [self _parseRTF];
 
@@ -387,6 +388,8 @@ static NSMutableDictionary *KeywordActions;
     NSLog(@"RTF control word: %@", keyword);
 #endif
     OUIRTFReaderAction *action = [KeywordActions objectForKey:keyword];
+    if (!action)
+        isSupported = NO;
     [action performActionWithParser:self];
 }
 
@@ -397,6 +400,8 @@ static NSMutableDictionary *KeywordActions;
 #endif
 
     OUIRTFReaderAction *action = [KeywordActions objectForKey:keyword];
+    if (!action)
+        isSupported = NO;
     [action performActionWithParser:self parameter:parameter];
 }
 
@@ -808,7 +813,7 @@ static NSMutableDictionary *KeywordActions;
         reservedSet = SemicolonReservedSet;
 
     NSUInteger pushedStateCount = [_pushedStates count]; // Keep track of our starting depth
-    while (scannerHasData(_scanner)) {
+    while (scannerHasData(_scanner) && isSupported) {
         switch (scannerPeekCharacter(_scanner)) {
             case '\\':
                 scannerSkipPeekedCharacter(_scanner); // Skip '\'
@@ -854,8 +859,11 @@ static NSMutableDictionary *KeywordActions;
 
 - (void)_parseRTF;
 {
-    while (scannerHasData(_scanner))
+    while (scannerHasData(_scanner) && isSupported)
         [self _parseRTFGroupWithSemicolonAction:nil];
+    
+    if (!isSupported)
+        [self setAttributedString:nil];
 }
 
 @end

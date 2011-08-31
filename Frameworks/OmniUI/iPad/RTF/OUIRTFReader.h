@@ -23,6 +23,7 @@
     NSMutableArray *_colorTable;
     NSMutableArray *_fontTable;
     short int _colorTableRedComponent, _colorTableGreenComponent, _colorTableBlueComponent;
+    BOOL isSupported;
 }
 
 + (NSAttributedString *)parseRTFString:(NSString *)rtfString;

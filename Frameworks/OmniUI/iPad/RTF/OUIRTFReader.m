@@ -36,7 +36,7 @@ RCS_ID("$Id$");
 
 + (void)_registerKeyword:(NSString *)keyword action:(OUIRTFReaderAction *)action;
 
-- (id)_initWithRTFString:(NSString *)rtfString;
+- (id)_initWithRTFString:(NSString *)rtfString error:(NSError **)error;
 - (void)_parseRTFGroupWithSemicolonAction:(OUIRTFReaderAction *)semicolonAction;
 - (void)_parseRTF;
 - (void)_parseKeyword;
@@ -345,11 +345,11 @@ static NSMutableDictionary *KeywordActions;
 
 #endif
 
-+ (NSAttributedString *)parseRTFString:(NSString *)rtfString;
++ (NSAttributedString *)parseRTFString:(NSString *)rtfString error:(NSError **)error;
 {
     NSAttributedString *result = nil;
     OMNI_POOL_START {
-        OUIRTFReader *parser = [[self alloc] _initWithRTFString:rtfString];
+        OUIRTFReader *parser = [[self alloc] _initWithRTFString:rtfString error:(NSError **)error];
         result = [parser.attributedString retain];
         [parser release];
 #ifdef DEBUG_RTF_READER
@@ -365,7 +365,7 @@ static NSMutableDictionary *KeywordActions;
     [KeywordActions setObject:action forKey:keyword];
 }
 
-- (id)_initWithRTFString:(NSString *)rtfString;
+- (id)_initWithRTFString:(NSString *)rtfString error:(NSError **)error;
 {
     if (!(self = [super init]))
         return nil;
@@ -379,6 +379,9 @@ static NSMutableDictionary *KeywordActions;
     _fontTable = [[NSMutableArray alloc] init];
 
     [self _parseRTF];
+    
+    if (!isSupported && error != NULL)
+        *error = [[[NSError alloc] initWithDomain:@"com.devon-technologies.thinktogo" code:1 userInfo:nil] autorelease];
 
     return self;
 }
@@ -427,7 +430,6 @@ static NSMutableDictionary *KeywordActions;
 #ifdef DEBUG_RTF_READER
     NSLog(@"Unsupported feature");
 #endif
-    _currentState->_flags.discardText = YES;
     isSupported = NO;
 }
 
@@ -879,9 +881,6 @@ static NSMutableDictionary *KeywordActions;
 {
     while (scannerHasData(_scanner))
         [self _parseRTFGroupWithSemicolonAction:nil];
-    
-    if (!isSupported)
-        [self setAttributedString:nil];
 }
 
 @end

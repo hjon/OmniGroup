@@ -26,6 +26,6 @@
     BOOL isSupported;
 }
 
-+ (NSAttributedString *)parseRTFString:(NSString *)rtfString;
++ (NSAttributedString *)parseRTFString:(NSString *)rtfString error:(NSError **)error;
 
 @end

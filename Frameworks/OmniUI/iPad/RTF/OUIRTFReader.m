@@ -199,6 +199,7 @@ static NSMutableDictionary *KeywordActions;
     KeywordActions = [[NSMutableDictionary alloc] init];
 
     OUIRTFReaderAction *skipDestinationAction = [[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionSkipDestination)] autorelease];
+    OUIRTFReaderAction *unsupportedFeatureAction = [[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionUnsupportedFeature)] autorelease];
 
     // Unicode characters
     [self _registerKeyword:@"uc" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionSetUnicodeSkipCount:)] autorelease]];
@@ -289,12 +290,24 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"private1" action:skipDestinationAction];
     [self _registerKeyword:@"revtim" action:skipDestinationAction];
     [self _registerKeyword:@"rxe" action:skipDestinationAction];
-    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
+//    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
     [self _registerKeyword:@"subject" action:skipDestinationAction];
     [self _registerKeyword:@"tc" action:skipDestinationAction];
     [self _registerKeyword:@"title" action:skipDestinationAction];
     [self _registerKeyword:@"txe" action:skipDestinationAction];
     [self _registerKeyword:@"xe" action:skipDestinationAction];
+    
+    // Unsupported features
+    [self _registerKeyword:@"tx" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tbldef" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"itap" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"trowd" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"listtext" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"list" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"stylesheet" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"pc" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"pca" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"field" action:unsupportedFeatureAction];
 }
 
 #ifdef DEBUG_RTF_READER
@@ -357,13 +370,13 @@ static NSMutableDictionary *KeywordActions;
     if (!(self = [super init]))
         return nil;
     
+    isSupported = YES;
     _attributedString = [[NSMutableAttributedString alloc] init];
     _scanner = [[OFStringScanner alloc] initWithString:rtfString];
     _currentState = [[OUIRTFReaderState alloc] init];
     _pushedStates = [[NSMutableArray alloc] init];
     _colorTable = [[NSMutableArray alloc] init];
     _fontTable = [[NSMutableArray alloc] init];
-    isSupported = YES;
 
     [self _parseRTF];
 
@@ -388,8 +401,6 @@ static NSMutableDictionary *KeywordActions;
     NSLog(@"RTF control word: %@", keyword);
 #endif
     OUIRTFReaderAction *action = [KeywordActions objectForKey:keyword];
-    if (!action)
-        isSupported = NO;
     [action performActionWithParser:self];
 }
 
@@ -400,8 +411,6 @@ static NSMutableDictionary *KeywordActions;
 #endif
 
     OUIRTFReaderAction *action = [KeywordActions objectForKey:keyword];
-    if (!action)
-        isSupported = NO;
     [action performActionWithParser:self parameter:parameter];
 }
 
@@ -411,6 +420,15 @@ static NSMutableDictionary *KeywordActions;
     NSLog(@"Skipping destination");
 #endif
     _currentState->_flags.discardText = YES;
+}
+
+- (void)_actionUnsupportedFeature;
+{
+#ifdef DEBUG_RTF_READER
+    NSLog(@"Unsupported feature");
+#endif
+    _currentState->_flags.discardText = YES;
+    isSupported = NO;
 }
 
 #pragma mark -
@@ -813,7 +831,7 @@ static NSMutableDictionary *KeywordActions;
         reservedSet = SemicolonReservedSet;
 
     NSUInteger pushedStateCount = [_pushedStates count]; // Keep track of our starting depth
-    while (scannerHasData(_scanner) && isSupported) {
+    while (scannerHasData(_scanner)) {
         switch (scannerPeekCharacter(_scanner)) {
             case '\\':
                 scannerSkipPeekedCharacter(_scanner); // Skip '\'
@@ -859,7 +877,7 @@ static NSMutableDictionary *KeywordActions;
 
 - (void)_parseRTF;
 {
-    while (scannerHasData(_scanner) && isSupported)
+    while (scannerHasData(_scanner))
         [self _parseRTFGroupWithSemicolonAction:nil];
     
     if (!isSupported)

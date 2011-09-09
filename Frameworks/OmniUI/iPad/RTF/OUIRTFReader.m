@@ -36,7 +36,7 @@ RCS_ID("$Id$");
 
 + (void)_registerKeyword:(NSString *)keyword action:(OUIRTFReaderAction *)action;
 
-- (id)_initWithRTFString:(NSString *)rtfString;
+- (id)_initWithRTFString:(NSString *)rtfString error:(NSError **)error;
 - (void)_parseRTFGroupWithSemicolonAction:(OUIRTFReaderAction *)semicolonAction;
 - (void)_parseRTF;
 - (void)_parseKeyword;
@@ -199,6 +199,7 @@ static NSMutableDictionary *KeywordActions;
     KeywordActions = [[NSMutableDictionary alloc] init];
 
     OUIRTFReaderAction *skipDestinationAction = [[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionSkipDestination)] autorelease];
+    OUIRTFReaderAction *unsupportedFeatureAction = [[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionUnsupportedFeature)] autorelease];
 
     // Unicode characters
     [self _registerKeyword:@"uc" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionSetUnicodeSkipCount:)] autorelease]];
@@ -289,12 +290,24 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"private1" action:skipDestinationAction];
     [self _registerKeyword:@"revtim" action:skipDestinationAction];
     [self _registerKeyword:@"rxe" action:skipDestinationAction];
-    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
+//    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
     [self _registerKeyword:@"subject" action:skipDestinationAction];
     [self _registerKeyword:@"tc" action:skipDestinationAction];
     [self _registerKeyword:@"title" action:skipDestinationAction];
     [self _registerKeyword:@"txe" action:skipDestinationAction];
     [self _registerKeyword:@"xe" action:skipDestinationAction];
+    
+    // Unsupported features
+    [self _registerKeyword:@"tx" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tbldef" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"itap" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"trowd" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"listtext" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"list" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"stylesheet" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"pc" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"pca" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"field" action:unsupportedFeatureAction];
 }
 
 #ifdef DEBUG_RTF_READER
@@ -332,11 +345,11 @@ static NSMutableDictionary *KeywordActions;
 
 #endif
 
-+ (NSAttributedString *)parseRTFString:(NSString *)rtfString;
++ (NSAttributedString *)parseRTFString:(NSString *)rtfString error:(NSError **)error;
 {
     NSAttributedString *result = nil;
     OMNI_POOL_START {
-        OUIRTFReader *parser = [[self alloc] _initWithRTFString:rtfString];
+        OUIRTFReader *parser = [[self alloc] _initWithRTFString:rtfString error:(NSError **)error];
         result = [parser.attributedString retain];
         [parser release];
 #ifdef DEBUG_RTF_READER
@@ -352,11 +365,12 @@ static NSMutableDictionary *KeywordActions;
     [KeywordActions setObject:action forKey:keyword];
 }
 
-- (id)_initWithRTFString:(NSString *)rtfString;
+- (id)_initWithRTFString:(NSString *)rtfString error:(NSError **)error;
 {
     if (!(self = [super init]))
         return nil;
     
+    isSupported = YES;
     _attributedString = [[NSMutableAttributedString alloc] init];
     _scanner = [[OFStringScanner alloc] initWithString:rtfString];
     _currentState = [[OUIRTFReaderState alloc] init];
@@ -365,6 +379,9 @@ static NSMutableDictionary *KeywordActions;
     _fontTable = [[NSMutableArray alloc] init];
 
     [self _parseRTF];
+    
+    if (!isSupported && error != NULL)
+        *error = [[[NSError alloc] initWithDomain:@"com.devon-technologies.thinktogo" code:1 userInfo:nil] autorelease];
 
     return self;
 }
@@ -406,6 +423,14 @@ static NSMutableDictionary *KeywordActions;
     NSLog(@"Skipping destination");
 #endif
     _currentState->_flags.discardText = YES;
+}
+
+- (void)_actionUnsupportedFeature;
+{
+#ifdef DEBUG_RTF_READER
+    NSLog(@"Unsupported feature");
+#endif
+    isSupported = NO;
 }
 
 #pragma mark -

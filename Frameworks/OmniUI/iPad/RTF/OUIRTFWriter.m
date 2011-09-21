@@ -17,6 +17,7 @@
 #if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
 #import <CoreText/CTParagraphStyle.h>
 #import <CoreText/CTStringAttributes.h>
+#import <CoreText/CTTextTab.h>
 #endif
 
 RCS_ID("$Id$");
@@ -295,10 +296,44 @@ static const struct {
     CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierHeadIndent, sizeof(headIndent), &headIndent);
     CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierTailIndent, sizeof(tailIndent), &tailIndent);
     
+    NSArray *tabStops;
+    CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierTabStops, sizeof(tabStops), &tabStops);
+    
     BOOL needTerminatingSpace = NO;
     int leftIndent = (int)(20.0 * headIndent);
     int firstLineIndent = ((int)(20.0 * firstLineHeadIndent)) - leftIndent;
     int rightIndent = 8640 - (int)(20.0 * tailIndent);
+    
+    
+    NSLog(@"Number of tabs: %lu", [tabStops count]);
+    NSLog(@"Tabs:\n%@", tabStops);
+    for (id tabStop in tabStops) {
+        CTTextAlignment tabAlignment = CTTextTabGetAlignment((CTTextTabRef)tabStop);
+        NSDictionary *options = (NSDictionary *)CTTextTabGetOptions((CTTextTabRef)tabStop);
+        if ([options objectForKey:(id)kCTTabColumnTerminatorsAttributeName])
+        {
+            NSLog(@"Options: %@", [options objectForKey:(id)kCTTabColumnTerminatorsAttributeName]);
+            OFDataBufferAppendCString(_dataBuffer, "\\tqdec");
+        }
+        NSLog(@"Alignment: %i", tabAlignment);
+        switch (tabAlignment) {
+            case kCTRightTextAlignment:
+                OFDataBufferAppendCString(_dataBuffer, "\\tqr");
+                break;
+            case kCTCenterTextAlignment:
+                if (!options) OFDataBufferAppendCString(_dataBuffer, "\\tqc");
+                break;
+            default:
+                break;
+        }
+        
+        double location = CTTextTabGetLocation((CTTextTabRef)tabStop);
+        NSLog(@"Location: %f", location);
+        int position = location * 20;
+        OFDataBufferAppendCString(_dataBuffer, "\\tx");
+        OFDataBufferAppendInteger(_dataBuffer, position);
+        needTerminatingSpace = YES;
+    }
     if (alignment != _state.alignment) {
         switch (alignment) {
             default:

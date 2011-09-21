@@ -20,6 +20,7 @@
 #if defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE
 #import <CoreText/CTParagraphStyle.h>
 #import <CoreText/CTStringAttributes.h>
+#import <CoreText/CTTextTab.h>
 #endif
 
 RCS_ID("$Id$");
@@ -73,9 +74,21 @@ RCS_ID("$Id$");
 - (void)_actionParagraphLeftIndent:(int)newValue;
 - (void)_actionParagraphRightIndent:(int)newValue;
 
+- (void)_actionParagraphRightTabStop;
+- (void)_actionParagraphCenterTabStop;
+- (void)_actionParagraphDecimalTabStop;
+- (void)_actionParagraphSetTabPosition:(int)newPosition;
+
 @end
 
 #define NO_RIGHT_INDENT (-999999)
+
+typedef enum OUITabStopType {
+    OUITabStopLeft,
+    OUITabStopRight,
+    OUITabStopCenter,
+    OUITabStopDecimal
+} OUITabStopType;
 
 @interface OUIRTFReaderState : OFObject <NSCopying>
 {
@@ -104,6 +117,9 @@ RCS_ID("$Id$");
         int leftIndent;
         int rightIndent;
     } _paragraph;
+    
+    OUITabStopType _tabStopType;
+    NSMutableArray *_tabStops;
 
     NSMutableDictionary *_cachedStringAttributes;
 }
@@ -122,10 +138,12 @@ RCS_ID("$Id$");
 @property (nonatomic) int paragraphFirstLineIndent;
 @property (nonatomic) int paragraphLeftIndent;
 @property (nonatomic) int paragraphRightIndent;
+@property (nonatomic) OUITabStopType tabStopType;
 
 - (NSMutableDictionary *)stringAttributesForReader:(OUIRTFReader *)reader;
 - (CFStringEncoding)fontEncoding;
 - (void)resetParagraphAttributes;
+- (void)setTabStopPosition:(int)position;
 
 @end
 
@@ -263,6 +281,12 @@ static NSMutableDictionary *KeywordActions;
     // Font table destination
     [self _registerKeyword:@"fonttbl" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionReadFontTable)] autorelease]];
     [self _registerKeyword:@"fcharset" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionReadFontCharacterSet:)] autorelease]];
+    
+    // Tab stops
+    [self _registerKeyword:@"tqr" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphRightTabStop)] autorelease]];
+    [self _registerKeyword:@"tqc" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphCenterTabStop)] autorelease]];
+    [self _registerKeyword:@"tqdec" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphDecimalTabStop)] autorelease]];
+    [self _registerKeyword:@"tx" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphSetTabPosition:)] autorelease]];
 
     // Unsupported destinations
     [self _registerKeyword:@"author" action:skipDestinationAction];
@@ -298,7 +322,13 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"xe" action:skipDestinationAction];
     
     // Unsupported features
-    [self _registerKeyword:@"tx" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tb" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tldot" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tlmdot" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tlhyph" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tlul" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tlth" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"tleq" action:unsupportedFeatureAction];
     [self _registerKeyword:@"tbldef" action:unsupportedFeatureAction];
     [self _registerKeyword:@"itap" action:unsupportedFeatureAction];
     [self _registerKeyword:@"trowd" action:unsupportedFeatureAction];
@@ -725,6 +755,26 @@ static NSMutableDictionary *KeywordActions;
     _currentState.paragraphRightIndent = newValue;
 }
 
+- (void)_actionParagraphRightTabStop;
+{
+    [_currentState setTabStopType:OUITabStopRight];
+}
+
+- (void)_actionParagraphCenterTabStop;
+{
+    [_currentState setTabStopType:OUITabStopCenter];
+}
+
+- (void)_actionParagraphDecimalTabStop;
+{
+    [_currentState setTabStopType:OUITabStopDecimal];
+}
+
+- (void)_actionParagraphSetTabPosition:(int)newPosition;
+{
+    [_currentState setTabStopPosition:newPosition];
+}
+
 #pragma mark -
 #pragma mark Parsing engine
 
@@ -896,6 +946,7 @@ static NSMutableDictionary *KeywordActions;
     _unicodeSkipCount = 1;
     _fontSize = 12.0f;
     _underline = kCTUnderlineStyleNone;
+    _tabStops = nil;
 
     [self resetParagraphAttributes];
 
@@ -908,6 +959,7 @@ static NSMutableDictionary *KeywordActions;
     [copy->_alternateDestination retain];
     [copy->_foregroundColor retain];
     [copy->_backgroundColor retain];
+    [copy->_tabStops retain];
     copy->_cachedStringAttributes = nil;
     return copy;
 }
@@ -917,6 +969,7 @@ static NSMutableDictionary *KeywordActions;
     [_alternateDestination release];
     [_foregroundColor release];
     [_backgroundColor release];
+    [_tabStops release];
     [_cachedStringAttributes release];
     [super dealloc];
 }
@@ -1079,6 +1132,48 @@ static NSMutableDictionary *KeywordActions;
     [self _resetCache];
 }
 
+@synthesize tabStopType = _tabStopType;
+
+- (void)setTabStopPosition:(int)position
+{
+//    tabStop newTabStop = { .type = _tabStopType, .position = (position / 1440.0f) };
+//    [[self tabStops] addObject:[NSValue valueWithBytes:&newTabStop objCType:@encode(tabStop)]];
+    
+    CGFloat positionInInches = position / 20.0f;
+    CTTextAlignment alignment = kCTLeftTextAlignment;
+    if (_tabStopType == OUITabStopRight)
+    {
+        alignment = kCTRightTextAlignment;
+    }
+    else if (_tabStopType == OUITabStopCenter || _tabStopType == OUITabStopDecimal)
+    {
+        alignment = kCTCenterTextAlignment;
+    }
+    
+    NSDictionary *options = nil;
+    if (_tabStopType == OUITabStopDecimal)
+    {
+        NSCharacterSet *decimalCharSet = [NSCharacterSet characterSetWithCharactersInString:@"."];
+        options = [NSDictionary dictionaryWithObject:decimalCharSet forKey:(NSString *)kCTTabColumnTerminatorsAttributeName];
+    }
+    
+    CFDictionaryRef finalOptions = NULL;
+    if (options) finalOptions = (CFDictionaryRef)options;
+    CTTextTabRef tab = CTTextTabCreate(alignment, positionInInches, finalOptions);
+//    NSLog(@"New tab: %@", tab);
+    
+    [_tabStops addObject:(id)tab];
+//    NSLog(@"Number of tabs: %lu", [_tabStops count]);
+//    NSLog(@"Tabs:\n%@", _tabStops);
+    CFRelease(tab);
+//    NSLog(@"Number of tabs: %lu", [_tabStops count]);
+//    NSLog(@"Tabs:\n%@", _tabStops);
+//    NSLog(@"End of the new stuff");
+    
+    _tabStopType = OUITabStopLeft;
+    [self _resetCache];
+}
+
 #pragma mark -
 #pragma mark API
 
@@ -1131,12 +1226,15 @@ static NSMutableDictionary *KeywordActions;
                 {kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
                 {kCTParagraphStyleSpecifierFirstLineHeadIndent, sizeof(firstLineHeadIndent), &firstLineHeadIndent},
                 {kCTParagraphStyleSpecifierHeadIndent, sizeof(headIndent), &headIndent},
+                {kCTParagraphStyleSpecifierTabStops, sizeof(_tabStops), &_tabStops},               
                 {kCTParagraphStyleSpecifierTailIndent, sizeof(tailIndent), &tailIndent},
             };
             CFIndex settingCount = sizeof(settings) / sizeof(*settings);
             if (_paragraph.rightIndent == NO_RIGHT_INDENT)
                 settingCount--;
             CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, settingCount);
+            NSLog(@"-----------------------");
+            NSLog(@"Paragraph style: %@", paragraphStyle);
             [_cachedStringAttributes setObject:(id)paragraphStyle forKey:(NSString *)kCTParagraphStyleAttributeName];
             CFRelease(paragraphStyle);
         } OMNI_POOL_END;
@@ -1196,6 +1294,10 @@ static NSMutableDictionary *KeywordActions;
     _paragraph.firstLineIndent = 0;
     _paragraph.leftIndent = 0;
     _paragraph.rightIndent = NO_RIGHT_INDENT;
+    
+    _tabStopType = OUITabStopLeft;
+    [_tabStops release];
+    _tabStops = [[NSMutableArray alloc] init];
 
     [self _resetCache];
 }

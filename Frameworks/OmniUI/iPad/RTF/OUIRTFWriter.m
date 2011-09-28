@@ -59,6 +59,7 @@ static OFCharacterSet *ReservedSet;
     [ReservedSet addAllCharacters];
     [ReservedSet removeCharactersInRange:NSMakeRange(32, 127 - 32)]; // Allow the ASCII range of non-control characters
     [ReservedSet addCharactersInString:@"\\{}\r\n"]; // Reserve the few ASCII characters that RTF needs us to quote
+    [ReservedSet removeCharactersInString:@"\t"]; // OS X doesn't escape tab characters
 }
 
 #ifdef DEBUG_RTF_WRITER

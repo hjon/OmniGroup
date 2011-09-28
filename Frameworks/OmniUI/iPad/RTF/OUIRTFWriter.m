@@ -289,6 +289,8 @@ static const struct {
 
 - (void)_writeParagraphAttributes:(NSDictionary *)newAttributes;
 {
+    OFDataBufferAppendCString(_dataBuffer, "\\pard");
+    
     CTParagraphStyleRef paragraphStyle = (CTParagraphStyleRef)[newAttributes objectForKey:(id)kCTParagraphStyleAttributeName];
     CTTextAlignment alignment = kCTNaturalTextAlignment;
     CGFloat firstLineHeadIndent = 0.0f, headIndent = 0.0f, tailIndent = 0.0f;
@@ -380,10 +382,10 @@ static const struct {
 - (void)_writeAttributes:(NSDictionary *)newAttributes beginningOfParagraph:(BOOL)beginningOfParagraph;
 {
     OMNI_POOL_START {
-        [self _writeFontAttributes:newAttributes];
-        [self _writeColorAttributes:newAttributes];
         if (beginningOfParagraph)
             [self _writeParagraphAttributes:newAttributes];
+        [self _writeFontAttributes:newAttributes];
+        [self _writeColorAttributes:newAttributes];
     } OMNI_POOL_END;
 }
 

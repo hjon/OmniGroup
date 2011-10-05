@@ -289,11 +289,11 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"tx" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphSetTabPosition:)] autorelease]];
 
     // Unsupported destinations
-    [self _registerKeyword:@"author" action:skipDestinationAction];
-    [self _registerKeyword:@"buptim" action:skipDestinationAction];
-    [self _registerKeyword:@"comment" action:skipDestinationAction];
-    [self _registerKeyword:@"creatim" action:skipDestinationAction];
-    [self _registerKeyword:@"doccomm" action:skipDestinationAction];
+    //    [self _registerKeyword:@"author" action:skipDestinationAction];
+    //    [self _registerKeyword:@"buptim" action:skipDestinationAction];
+    //    [self _registerKeyword:@"comment" action:skipDestinationAction];
+    //    [self _registerKeyword:@"creatim" action:skipDestinationAction];
+    //    [self _registerKeyword:@"doccomm" action:skipDestinationAction];
     [self _registerKeyword:@"footer" action:skipDestinationAction];
     [self _registerKeyword:@"footerf" action:skipDestinationAction];
     [self _registerKeyword:@"footerl" action:skipDestinationAction];
@@ -306,19 +306,20 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"headerf" action:skipDestinationAction];
     [self _registerKeyword:@"headerl" action:skipDestinationAction];
     [self _registerKeyword:@"headerr" action:skipDestinationAction];
-    [self _registerKeyword:@"info" action:skipDestinationAction];
-    [self _registerKeyword:@"keywords" action:skipDestinationAction];
-    [self _registerKeyword:@"operator" action:skipDestinationAction];
+    //    [self _registerKeyword:@"info" action:skipDestinationAction];
+    //    [self _registerKeyword:@"keywords" action:skipDestinationAction];
+    //    [self _registerKeyword:@"operator" action:skipDestinationAction];
     [self _registerKeyword:@"pict" action:skipDestinationAction];
-    [self _registerKeyword:@"printim" action:skipDestinationAction];
+    //    [self _registerKeyword:@"printim" action:skipDestinationAction];
     [self _registerKeyword:@"private1" action:skipDestinationAction];
-    [self _registerKeyword:@"revtim" action:skipDestinationAction];
-    [self _registerKeyword:@"rxe" action:skipDestinationAction];
-//    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
-    [self _registerKeyword:@"subject" action:skipDestinationAction];
-    [self _registerKeyword:@"tc" action:skipDestinationAction];
-    [self _registerKeyword:@"title" action:skipDestinationAction];
-    [self _registerKeyword:@"txe" action:skipDestinationAction];
+    //    [self _registerKeyword:@"revtim" action:skipDestinationAction];
+    //    [self _registerKeyword:@"rxe" action:skipDestinationAction];
+    //    [self _registerKeyword:@"stylesheet" action:skipDestinationAction];
+    //    [self _registerKeyword:@"subject" action:skipDestinationAction];
+    //    [self _registerKeyword:@"tc" action:skipDestinationAction];
+    //    [self _registerKeyword:@"title" action:skipDestinationAction];
+    //    [self _registerKeyword:@"txe" action:skipDestinationAction];
+    //    [self _registerKeyword:@"xe" action:skipDestinationAction];
     [self _registerKeyword:@"xe" action:skipDestinationAction];
     
     // Unsupported features
@@ -338,6 +339,28 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"pc" action:unsupportedFeatureAction];
     [self _registerKeyword:@"pca" action:unsupportedFeatureAction];
     [self _registerKeyword:@"field" action:unsupportedFeatureAction];
+    
+    // Information group
+    [self _registerKeyword:@"info" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"author" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"company" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"copyright" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"doccomm" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"keywords" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"subject" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"title" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"buptim" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"comment" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"creatim" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"operator" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"revtim" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"printim" action:unsupportedFeatureAction];
+    
+    // Table of Contents and index entries
+    [self _registerKeyword:@"tc" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"rxe" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"txe" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"xe" action:unsupportedFeatureAction];
 }
 
 #ifdef DEBUG_RTF_READER

@@ -299,7 +299,7 @@ static const struct {
     CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierHeadIndent, sizeof(headIndent), &headIndent);
     CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierTailIndent, sizeof(tailIndent), &tailIndent);
     
-    NSArray *tabStops;
+    NSArray *tabStops = nil;
     CTParagraphStyleGetValueForSpecifier(paragraphStyle, kCTParagraphStyleSpecifierTabStops, sizeof(tabStops), &tabStops);
     
     BOOL needTerminatingSpace = NO;

@@ -564,6 +564,45 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		2518A64C1443453E00AA072D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34DB337008C62ABA00BC2748 /* Omni-Global-Release.xcconfig */;
+			buildSettings = {
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+			};
+			name = Deployment;
+		};
+		2518A64D1443453E00AA072D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34DB336D08C62ABA00BC2748 /* Omni-Framework-Release.xcconfig */;
+			buildSettings = {
+				INFOPLIST_FILE = Info.plist;
+				OMNI_BUNDLE_IDENTIFIER = com.omnigroup.framework.OmniQuartz;
+				PRODUCT_NAME = OmniQuartz;
+			};
+			name = Deployment;
+		};
+		2518A64E1443453E00AA072D /* Deployment */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 345613C81193195A00E7D187 /* Touch-Library-Release.xcconfig */;
+			buildSettings = {
+				ARCHS = (
+					armv6,
+					armv7,
+					i386,
+				);
+				"ARCHS[sdk=iphoneos*]" = (
+					armv6,
+					armv7,
+					i386,
+				);
+				GCC_PREFIX_HEADER = "$(TARGET_NAME)_Prefix.h";
+				IPHONEOS_DEPLOYMENT_TARGET = 3.1;
+				PRODUCT_NAME = OmniQuartz;
+				"VALID_ARCHS[sdk=iphoneos*]" = "armv6 armv7 armv7f armv7k";
+			};
+			name = Deployment;
+		};
 		25F0518A13F3316F00D6DD46 /* AdHoc */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 34DB337008C62ABA00BC2748 /* Omni-Global-Release.xcconfig */;
@@ -728,6 +767,7 @@
 			buildConfigurations = (
 				345613D51193197700E7D187 /* Debug */,
 				345613D61193197700E7D187 /* Release */,
+				2518A64E1443453E00AA072D /* Deployment */,
 				25F0518C13F3316F00D6DD46 /* AdHoc */,
 				345613D71193197700E7D187 /* Coverage */,
 			);
@@ -739,6 +779,7 @@
 			buildConfigurations = (
 				34DB335B08C62AB500BC2748 /* Debug */,
 				34DB335C08C62AB500BC2748 /* Release */,
+				2518A64D1443453E00AA072D /* Deployment */,
 				25F0518B13F3316F00D6DD46 /* AdHoc */,
 				34DB335D08C62AB500BC2748 /* Coverage */,
 			);
@@ -750,6 +791,7 @@
 			buildConfigurations = (
 				34DB335F08C62AB500BC2748 /* Debug */,
 				34DB336008C62AB500BC2748 /* Release */,
+				2518A64C1443453E00AA072D /* Deployment */,
 				25F0518A13F3316F00D6DD46 /* AdHoc */,
 				34DB336108C62AB500BC2748 /* Coverage */,
 			);

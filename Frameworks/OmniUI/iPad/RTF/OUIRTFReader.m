@@ -287,6 +287,8 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"tqc" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphCenterTabStop)] autorelease]];
     [self _registerKeyword:@"tqdec" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphDecimalTabStop)] autorelease]];
     [self _registerKeyword:@"tx" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphSetTabPosition:)] autorelease]];
+//    [self _registerKeyword:@"sa" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphSetSpacing:)] autorelease]];
+//    [self _registerKeyword:@"sb" action:[[[OUIRTFReaderSelectorAction alloc] initWithSelector:@selector(_actionParagraphSetSpacingBefore:)] autorelease]];
 
     // Unsupported destinations
     //    [self _registerKeyword:@"author" action:skipDestinationAction];
@@ -361,6 +363,12 @@ static NSMutableDictionary *KeywordActions;
     [self _registerKeyword:@"rxe" action:unsupportedFeatureAction];
     [self _registerKeyword:@"txe" action:unsupportedFeatureAction];
     [self _registerKeyword:@"xe" action:unsupportedFeatureAction];
+    
+    [self _registerKeyword:@"sa" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"sb" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"slleading" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"slmaximum" action:unsupportedFeatureAction];
+    [self _registerKeyword:@"slminimum" action:unsupportedFeatureAction];
 }
 
 #ifdef DEBUG_RTF_READER

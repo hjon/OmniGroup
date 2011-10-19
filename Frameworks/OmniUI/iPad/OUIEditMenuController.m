@@ -198,7 +198,14 @@ NSString * const OUIKeyboardAnimationInhibition = @"OUIKeyboardAnimationInhibiti
     }
 
     if (shouldBeVisible) {
-        [menuController setTargetRect:[unretained_editor targetRectangleForEditMenu] inView:unretained_editor];
+        CGRect targetRect = [unretained_editor targetRectangleForEditMenu];
+        [menuController setTargetRect:targetRect inView:unretained_editor];
+        CGRect viewBounds = unretained_editor.bounds;
+        if ((targetRect.origin.y - viewBounds.origin.y) < 38)
+            menuController.arrowDirection = UIMenuControllerArrowUp;
+        else
+            menuController.arrowDirection = UIMenuControllerArrowDefault;
+        
         if (![menuController.menuItems isEqualToArray:[self _extraMenuItemsForCurrentState]]) {
             [menuController setMenuVisible:NO animated:NO];
             menuController.menuItems = [self _extraMenuItemsForCurrentState];            

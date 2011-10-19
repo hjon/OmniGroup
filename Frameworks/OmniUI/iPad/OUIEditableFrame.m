@@ -946,6 +946,7 @@ static BOOL _rangeIsInsertionPoint(OUIEditableFrame *self, UITextRange *r)
     [_markedRangeBackgroundColor release];
     
     [editMenu release];
+    [_textInspector release];
     
     [super dealloc];
 }
@@ -3177,9 +3178,13 @@ static NSUInteger moveVisuallyWithinLine(CTLineRef line, CFStringRef base, NSUIn
 
 - (UITextRange *)characterRangeByExtendingPosition:(UITextPosition *)position inDirection:(UITextLayoutDirection)direction;
 {
-    /* TODO: Implement this */
+#ifdef DEBUG
+    OBASSERT_NOT_REACHED("Don't know how to make this happen yet, but let's not intentionally crash release builds if it does...");
     btrace();
     abort();
+#endif
+    
+    return nil;
 }
 
 /* Not part of the official UITextInput protocol, but useful */
@@ -3221,16 +3226,21 @@ static NSUInteger moveVisuallyWithinLine(CTLineRef line, CFStringRef base, NSUIn
 /* Writing direction */
 - (UITextWritingDirection)baseWritingDirectionForPosition:(UITextPosition *)position inDirection:(UITextStorageDirection)direction;
 {
-    /* TODO: Implement this */
+    // This gets called in iOS 5 b6. Let's not intentionally crash release builds; for now we'll ignore the change.
+#ifdef DEBUG
     btrace();
-    abort();    
+    OBFinishPortingLater("Stop ignoring writing direction changes.");
+#endif
+    return UITextWritingDirectionNatural;   
 }
 
 - (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection forRange:(UITextRange *)range;
 {
-    /* TODO: Implement this */
+    // This gets called in iOS 5 b6. Let's not intentionally crash release builds; for now we'll ignore the change.
+#ifdef DEBUG
     btrace();
-    abort();
+    OBFinishPortingLater("Stop ignoring writing direction changes.");
+#endif
 }    
 
 /* Geometry used to provide, for example, a correction rect. */
@@ -3367,6 +3377,9 @@ CGRect OUITextLayoutFirstRectForRange(CTFrameRef frame, NSRange characterRange)
         CFStringRef fontName = CTFontCopyPostScriptName(ctFont);
         /* There's no way to tell the text input system that we're displaying a zoomed UI, but we can at least scale up the text in the correction rect. */
         UIFont *uif = [UIFont fontWithName:(id)fontName size:CTFontGetSize(ctFont) * MAX(1.0, [self scale])];
+        if (!uif) // we can get into situations where there are fonts the iPad is happy to render (GillSans-Light for example) but will not let us look up with UIFont. if we hit one of these, or otherwise fail, fall back to Helvetica Neue. I'm told it's fixed in iOS5
+            uif = [UIFont fontWithName:@"Helvetica Neue" size:CTFontGetSize(ctFont) * MAX(1.0, [self scale])];
+
         CFRelease(fontName);
         [uiStyles setObject:uif forKey:UITextInputTextFontKey];
     }

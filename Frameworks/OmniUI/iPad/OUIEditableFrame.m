@@ -207,13 +207,13 @@ static NSString *_positionDescription(OUIEditableFrame *self, OUEFTextPosition *
 }
 #endif
 
-static void btrace(void)
-{
-#define NUMB 24
-    void *fps[NUMB];
-    int numb = backtrace(fps, NUMB);
-    backtrace_symbols_fd(fps + 1, numb - 1, 2);
-}
+//static void btrace(void)
+//{
+//#define NUMB 24
+//    void *fps[NUMB];
+//    int numb = backtrace(fps, NUMB);
+//    backtrace_symbols_fd(fps + 1, numb - 1, 2);
+//}
 
 + (Class)textStorageClass;
 {
@@ -3180,8 +3180,8 @@ static NSUInteger moveVisuallyWithinLine(CTLineRef line, CFStringRef base, NSUIn
 {
 #ifdef DEBUG
     OBASSERT_NOT_REACHED("Don't know how to make this happen yet, but let's not intentionally crash release builds if it does...");
-    btrace();
-    abort();
+//    btrace();
+//    abort();
 #endif
     
     return nil;
@@ -3228,7 +3228,7 @@ static NSUInteger moveVisuallyWithinLine(CTLineRef line, CFStringRef base, NSUIn
 {
     // This gets called in iOS 5 b6. Let's not intentionally crash release builds; for now we'll ignore the change.
 #ifdef DEBUG
-    btrace();
+//    btrace();
     OBFinishPortingLater("Stop ignoring writing direction changes.");
 #endif
     return UITextWritingDirectionNatural;   
@@ -3238,7 +3238,7 @@ static NSUInteger moveVisuallyWithinLine(CTLineRef line, CFStringRef base, NSUIn
 {
     // This gets called in iOS 5 b6. Let's not intentionally crash release builds; for now we'll ignore the change.
 #ifdef DEBUG
-    btrace();
+//    btrace();
     OBFinishPortingLater("Stop ignoring writing direction changes.");
 #endif
 }    
@@ -4787,7 +4787,7 @@ void OUITextLayoutDrawExtraRunBackgrounds(CGContextRef ctx, CTFrameRef drawnFram
     [foregroundSlice setAllowsNone:YES];
     [slices addObject:foregroundSlice];
     [foregroundSlice release];
-    OUITextColorAttributeInspectorSlice *backgroundSlice = [[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Background color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.") attributeName:OABackgroundColorAttributeName];
+    OUITextColorAttributeInspectorSlice *backgroundSlice = [[OUITextColorAttributeInspectorSlice alloc] initWithLabel:NSLocalizedStringFromTableInBundle(@"Highlight color", @"OUIInspectors", OMNI_BUNDLE, @"Title above color swatch picker for the text color.") attributeName:OABackgroundColorAttributeName];
     [backgroundSlice setAllowsNone:YES];
     [slices addObject:backgroundSlice];
     [backgroundSlice release];

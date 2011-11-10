@@ -86,6 +86,17 @@ while [ $# != 0 ]; do
     rm "$table_file"
 done
 
+# Copy French and German localizations for DEVON since Omni doesn't include them
+DEVON_LOCALIZATIONS="$PROJECT_DIR/Localizations"
+if [ -e "$DEVON_LOCALIZATIONS" ]; then
+    for LOCAL_DIR in "$DEVON_LOCALIZATIONS"/*(N); do
+        echo "item: '$LOCAL_DIR'"
+        ROOT_LOCAL_DIR=`dirname $RESOURCE_DIR`
+        echo "Final directory: '$ROOT_LOCAL_DIR/${LOCAL_DIR:t}'"
+        rsync -v --recursive --checksum "$LOCAL_DIR" "$ROOT_LOCAL_DIR"
+    done
+fi
+
 unexpected=0
 for x in "$TMP_OUTPUT"/*(N); do
     echo "Unexpected string file emitted: $x"
